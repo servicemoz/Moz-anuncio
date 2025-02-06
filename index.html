@@ -1,1 +1,175 @@
-<center><b>SITE NÃO PAGO</b></center>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junte-se à Nossa Casa de Apostas</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-green {
+            background-color: #2ecc71;
+        }
+
+        .btn-green:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-red {
+            background-color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+
+        .btn-red:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animação de pulsar */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Estilização da imagem */
+        .image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Animação de flutuação */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        img {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Efeito de brilho nos botões */
+        .button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .button:hover::after {
+            opacity: 1;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+
+            .button {
+                padding: 12px 24px;
+                font-size: 1em;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Imagem adicionada -->
+        <a href="https://media1.placard.co.mz/redirect.aspx?pid=5220&bid=1690">
+            <img src="/IMG-20241209-WA0132.jpg" alt="Imagem de chamada para a casa de apostas" class="image">
+        </a>
+        <p style="color: #ff6b6b; font-weight: bold;">Clique na imagem para faturar agora!</p>
+        <h1>Oportunidade de Ganhar com a Casa de Apostas!</h1>
+        <p>Quer aproveitar as melhores oportunidades de apostas? Junte-se ao nosso grupo exclusivo e receba dicas e estratégias vencedoras. Está pronto para aumentar suas chances de ganhar? Não perca essa chance de lucrar!</p>
+
+        <a href="https://whatsapp.com/channel/0029Vb4t67j6hENkoRi3oh0B" class="button btn-green">Entrar no Grupo</a>
+        <a href="https://media1.placard.co.mz/redirect.aspx?pid=5220&bid=1690" class="button btn-red">Registrar-se na Casa de Apostas</a>
+    </div>
+</body>
+</html>
