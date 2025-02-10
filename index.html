@@ -1,175 +1,149 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Junte-se à Nossa Casa de Apostas</title>
+    <title>Gerador de Sinais Aviator</title>
     <style>
-        /* Estilos gerais */
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a1a, #2c3e50);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Impede rolagem horizontal */
+        }
+
+        /* Botão fixo no topo */
+        #generateButton {
+            position: fixed;
+            top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 1000; /* Garante que o botão fique acima de tudo */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
 
         .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        p {
-            font-size: 1.2em;
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-green {
-            background-color: #2ecc71;
-        }
-
-        .btn-green:hover {
-            background-color: #27ae60;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-red {
-            background-color: #e74c3c;
-            animation: pulse 1.5s infinite;
-        }
-
-        .btn-red:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Animação de pulsar */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Estilização da imagem */
-        .image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .image:hover {
-            transform: scale(1.05);
-        }
-
-        /* Animação de flutuação */
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        img {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Efeito de brilho nos botões */
-        .button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+            display: flex;
+            flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha */
+            gap: 20px;
             width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            max-width: 800px;
+            margin-top: 60px; /* Espaço para o botão fixo */
+            justify-content: center; /* Centraliza as colunas horizontalmente */
         }
 
-        .button:hover::after {
-            opacity: 1;
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
+        .block {
+            width: 80px; /* Tamanho reduzido */
+            padding: 5px; /* Tamanho reduzido */
+            border: 2px solid #000; /* Borda mais espessa */
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            visibility: hidden; /* Blocos invisíveis inicialmente */
+            padding: 5px; /* Distância do conteúdo interno */
+            box-sizing: border-box; /* Garante que o padding não altere o tamanho */
+        }
 
-            p {
-                font-size: 1em;
-            }
+        .blue {
+            background-color: #6b6bff;
+        }
 
-            .button {
-                padding: 12px 24px;
-                font-size: 1em;
-            }
+        .purple {
+            background-color: #b56bff;
+        }
+
+        .pink {
+            background-color: #ff6b9c;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <div class="container">
-        <!-- Imagem adicionada -->
-        <a href="https://media1.placard.co.mz/redirect.aspx?pid=5220&bid=1690">
-            <img src="/IMG-20241209-WA0132.jpg" alt="Imagem de chamada para a casa de apostas" class="image">
-        </a>
-        <p style="color: #ff6b6b; font-weight: bold;">Clique na imagem para faturar agora!</p>
-        <h1>Oportunidade de Ganhar com a Casa de Apostas!</h1>
-        <p>Quer aproveitar as melhores oportunidades de apostas? Junte-se ao nosso grupo exclusivo e receba dicas e estratégias vencedoras. Está pronto para aumentar suas chances de ganhar? Não perca essa chance de lucrar!</p>
+    <button id="generateButton">Gerar</button>
 
-        <a href="https://whatsapp.com/channel/0029Vb4t67j6hENkoRi3oh0B" class="button btn-green">Entrar no Grupo</a>
-        <a href="https://media1.placard.co.mz/redirect.aspx?pid=5220&bid=1690" class="button btn-red">Registrar-se na Casa de Apostas</a>
+    <div class="container">
+        <!-- Coluna 1 (Azul) -->
+        <div class="column">
+            <div class="block blue"></div>
+            <div class="block blue"></div>
+            <div class="block blue"></div>
+            <div class="block blue"></div>
+            <div class="block blue"></div>
+            <div class="block blue"></div>
+                <div class="block blue"></div>
+                <div class="block blue"></div>
+                <div class="block blue"></div>
+                <div class="block blue"></div>
+                <div class="block blue"></div>
+                <div class="block blue"></div>
+        </div>
+
+        <!-- Coluna 2 (Roxo) -->
+        <div class="column">
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+            <div class="block purple"></div>
+        </div>
+
+        <!-- Coluna 3 (Rosa) -->
+        <div class="column">
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+            <div class="block pink"></div>
+        </div>
+
+     
     </div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const blocks = document.querySelectorAll('.block');
+
+            blocks.forEach((block) => {
+                // Gerar valores aleatórios para minutos e segundos
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = Math.floor(Math.random() * 60); // Minutos aleatórios
+                const seconds = Math.floor(Math.random() * 60); // Segundos aleatórios
+
+                // Exibir os valores no bloco
+                block.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                block.style.visibility = 'visible'; // Tornar o bloco visível
+            });
+        });
+    </script>
 </body>
 </html>
