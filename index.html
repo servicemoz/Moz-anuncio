@@ -47,8 +47,8 @@
 
         .block {
             width: 80px; /* Tamanho reduzido */
-            padding: 5px; /* Tamanho reduzido */
-            border: 2px solid #000; /* Borda mais espessa */
+            padding: 6px; /* Tamanho reduzido */
+            border: 1px solid #000; /* Borda mais espessa */
             border-radius: 6px;
             display: flex;
             justify-content: center;
@@ -71,6 +71,24 @@
         .pink {
             background-color: #ff6b9c;
         }
+
+        .black {
+            background-color: #000;
+            color: white; /* Texto branco para contraste */
+        }
+
+        .multiplier {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .multiplier {
+          background: #595E94;
+          padding: 4px;
+          border-radius: 5px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 1);
+        }
     </style>
 </head>
 <body>
@@ -80,59 +98,76 @@
         <!-- Coluna 1 (Azul) -->
         <div class="column">
             <div class="block blue"></div>
+            <div class="multiplier"></div>
             <div class="block blue"></div>
+            <div class="multiplier"></div>
             <div class="block blue"></div>
+            <div class="multiplier"></div>
             <div class="block blue"></div>
+            <div class="multiplier"></div>
             <div class="block blue"></div>
+            <div class="multiplier"></div>
             <div class="block blue"></div>
-                <div class="block blue"></div>
-                <div class="block blue"></div>
-                <div class="block blue"></div>
-                <div class="block blue"></div>
-                <div class="block blue"></div>
-                <div class="block blue"></div>
+            <div class="multiplier"></div>
+            <div class="block blue"></div>
+            <div class="multiplier"></div>
+            <div class="block blue"></div>
+            <div class="multiplier"></div>
+            <div class="block blue"></div>
+            <div class="multiplier"></div>
         </div>
 
         <!-- Coluna 2 (Roxo) -->
         <div class="column">
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
+            <div class="multiplier"></div>
             <div class="block purple"></div>
-            <div class="block purple"></div>
-            <div class="block purple"></div>
-            <div class="block purple"></div>
+            <div class="multiplier"></div>
         </div>
 
         <!-- Coluna 3 (Rosa) -->
         <div class="column">
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
+            <div class="multiplier"></div>
             <div class="block pink"></div>
-            <div class="block pink"></div>
-            <div class="block pink"></div>
-            <div class="block pink"></div>
+            <div class="multiplier"></div>
         </div>
-
-     
     </div>
 
     <script>
         document.getElementById('generateButton').addEventListener('click', function() {
             const blocks = document.querySelectorAll('.block');
+            const multipliers = document.querySelectorAll('.multiplier');
 
-            blocks.forEach((block) => {
+            blocks.forEach((block, index) => {
                 // Gerar valores aleatórios para minutos e segundos
                 const now = new Date();
                 const hours = now.getHours();
@@ -142,6 +177,26 @@
                 // Exibir os valores no bloco
                 block.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                 block.style.visibility = 'visible'; // Tornar o bloco visível
+
+                // Gerar multiplicador com base na cor do bloco
+                const multiplierElement = multipliers[index];
+                if (block.classList.contains('blue')) {
+                    const x = Math.floor(Math.random() * 3) + 1; // 1 a 3
+                    const y = (Math.random() * 0.99 + 1).toFixed(2); // 1 a 1,99
+                    multiplierElement.textContent = `${x}: ${y}X`;
+                } else if (block.classList.contains('purple')) {
+                    const x = Math.floor(Math.random() * 3) + 1; // 1 a 3
+                    const y = (Math.random() * 8 + 2).toFixed(2); // 2 a 9,99
+                    multiplierElement.textContent = `${x}: ${y}X`;
+                } else if (block.classList.contains('pink')) {
+                    const x = Math.floor(Math.random() * 3) + 1; // 1 a 3
+                    const y = Math.floor(Math.random() * 21) + 10; // 10 a 30
+                    multiplierElement.textContent = `${x}: ${y}X`;
+                } else if (block.classList.contains('black')) {
+                    const x = Math.floor(Math.random() * 3) + 1; // 1 a 3
+                    const y = Math.floor(Math.random() * 70) + 31; // 31 a 100
+                    multiplierElement.textContent = `${x}: ${y}X`;
+                }
             });
         });
     </script>
