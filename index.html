@@ -5,160 +5,376 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Sinais Aviator</title>
     <style>
+        /* Estilos Globais */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden; /* Impede rolagem horizontal */
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Botão fixo no topo */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #e0e0e0;
+        }
+
+        /* Botão Fixo no Topo */
         #generateButton {
             position: fixed;
-            top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            top: 20px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            z-index: 1000; /* Garante que o botão fique acima de tudo */
+            z-index: 1000;
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
         }
 
+        #generateButton:hover {
+            background-color: #45a049;
+        }
+
+        /* Container Principal */
         .container {
             display: flex;
-            flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha */
-            gap: 20px;
+            flex-direction: column;
+            gap: 40px;
             width: 100%;
-            max-width: 800px;
-            margin-top: 60px; /* Espaço para o botão fixo */
-            justify-content: center; /* Centraliza as colunas horizontalmente */
+            max-width: 1200px;
+            margin-top: 80px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Seção de Sinais */
+        .signal-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .signal-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .columns {
+            display: flex;
+            gap: 10px; /* Espaçamento menor entre colunas */
+            justify-content: center;
+            overflow-x: auto; /* Permite rolagem horizontal em telas pequenas */
+            padding-bottom: 10px; /* Espaço para a barra de rolagem */
         }
 
         .column {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 10px; /* Espaçamento menor entre blocos */
         }
 
+        /* Blocos de Sinais */
         .block {
-            width: 80px; /* Tamanho reduzido */
-            padding: 6px; /* Tamanho reduzido */
-            border: 1px solid #000; /* Borda mais espessa */
-            border-radius: 6px;
+            width: 55px; /* Largura reduzida */
+            height: 23px; /* Altura reduzida */
+            padding: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
+            font-size: 12px; /* Fonte menor */
             font-weight: bold;
-            visibility: hidden; /* Blocos invisíveis inicialmente */
-            padding: 5px; /* Distância do conteúdo interno */
-            box-sizing: border-box; /* Garante que o padding não altere o tamanho */
+            visibility: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .block.visible {
+            visibility: visible;
+        }
+
+        .block:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .blue {
-            background-color: #6b6bff;
+            background-color: rgba(107, 107, 255, 0.8);
         }
 
         .purple {
-            background-color: #b56bff;
+            background-color: rgba(181, 107, 255, 0.8);
         }
 
         .pink {
-            background-color: #ff6b9c;
+            background-color: rgba(255, 107, 156, 0.8);
         }
 
         .black {
-            background-color: #000;
-            color: white; /* Texto branco para contraste */
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
         }
 
+        /* Multiplicadores */
         .multiplier {
-            font-size: 14px;
+          height: 20px;
+            width: 55px; /* Largura reduzida */
+            font-size: 12px; /* Fonte menor */
             text-align: center;
             margin-top: 5px;
+            background: rgba(89, 94, 148, 0.8);
+            padding: 6px;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            color: #fff;
         }
-        
-        .multiplier {
-          background: #595E94;
-          padding: 4px;
-          border-radius: 5px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 1);
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .columns {
+                justify-content: flex-start; /* Alinha as colunas à esquerda */
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <button id="generateButton">Gerar</button>
+    <h1>Gerador de Sinais Aviator</h1>
+    <p>Clique no botão abaixo para gerar sinais do sistema.</p>
+    <button id="generateButton">Gerar Sinais</button>
 
     <div class="container">
-        <!-- Coluna 1 (Azul) -->
-        <div class="column">
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
-            <div class="block blue"></div>
-            <div class="multiplier"></div>
+        <!-- Seção Azul -->
+        <div class="signal-section">
+            <h2>Sinais Azuis</h2>
+            <div class="columns">
+                <!-- Coluna 1 -->
+                <div class="column">
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 2 -->
+                <div class="column">
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 3 -->
+                <div class="column">
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                </div>
+                 <div class="column">
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                    <div class="block blue"></div>
+                    <div class="multiplier"></div>
+                </div>
+            </div>
         </div>
 
-        <!-- Coluna 2 (Roxo) -->
-        <div class="column">
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
-            <div class="block purple"></div>
-            <div class="multiplier"></div>
+        <!-- Seção Roxa -->
+        <div class="signal-section">
+            <h2>Sinais Roxos</h2>
+            <div class="columns">
+                <!-- Coluna 1 -->
+                <div class="column">
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 2 -->
+                <div class="column">
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 3 -->
+                <div class="column">
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                </div>
+                  <div class="column">
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                    <div class="block purple"></div>
+                    <div class="multiplier"></div>
+                  </div>
+            </div>
         </div>
 
-        <!-- Coluna 3 (Rosa) -->
-        <div class="column">
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
-            <div class="block pink"></div>
-            <div class="multiplier"></div>
+        <!-- Seção Rosa -->
+        <div class="signal-section">
+            <h2>Sinais Rosas</h2>
+            <div class="columns">
+                <!-- Coluna 1 -->
+                <div class="column">
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 2 -->
+                <div class="column">
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                </div>
+                <!-- Coluna 3 -->
+                <div class="column">
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                </div>
+                 <div class="column">
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                    <div class="block pink"></div>
+                    <div class="multiplier"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -168,15 +384,15 @@
             const multipliers = document.querySelectorAll('.multiplier');
 
             blocks.forEach((block, index) => {
-                // Gerar valores aleatórios para minutos e segundos
+                // Gerar valores aleatórios para horas, minutos e segundos
                 const now = new Date();
-                const hours = now.getHours();
-                const minutes = Math.floor(Math.random() * 60); // Minutos aleatórios
-                const seconds = Math.floor(Math.random() * 60); // Segundos aleatórios
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(Math.floor(Math.random() * 60)).padStart(2, '0');
+                const seconds = String(Math.floor(Math.random() * 60)).padStart(2, '0');
 
                 // Exibir os valores no bloco
-                block.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                block.style.visibility = 'visible'; // Tornar o bloco visível
+                block.textContent = `${hours}:${minutes}:${seconds}`;
+                block.classList.add('visible'); // Tornar o bloco visível
 
                 // Gerar multiplicador com base na cor do bloco
                 const multiplierElement = multipliers[index];
